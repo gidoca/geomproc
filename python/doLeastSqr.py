@@ -4,12 +4,22 @@ import numpy as np
 
 import sys, getopt
 
-def readArray(array_file):
+def readFloatArray(array_file):
     "returns the 1D array contained iin the file"
     f= open(array_file, "r")
     b= []
     for line in f:
         b.append(float(line))
+    f.close()
+    return np.array(b)
+
+
+def readIntArray(array_file):
+    "returns the 1D array contained iin the file"
+    f= open(array_file, "r")
+    b= []
+    for line in f:
+        b.append(int(line))
     f.close()
     return np.array(b)
 
@@ -27,7 +37,7 @@ def doLeastSquares(argv):
                                    "valfile=", "bfile=",
                                    "xfile="])
     except getopt.GetoptError:
-        print 'doLeastSqr.py -i <inputfile> -j <inputfile> -v <inputfile> -b <inputfile> -x <outputfile>'
+        print('doLeastSqr.py -i <inputfile> -j <inputfile> -v <inputfile> -b <inputfile> -x <outputfile>')
         sys.exit(2)
     
     for opt, arg in opts:
@@ -43,10 +53,10 @@ def doLeastSquares(argv):
             file_val = arg
 
     #read in the specified files
-    b= readArray(file_b)
-    rows = readArray(file_i)
-    cols = readArray(file_j)
-    vals = readArray(file_val)
+    b= readFloatArray(file_b)
+    rows = readIntArray(file_i)
+    cols = readIntArray(file_j)
+    vals = readFloatArray(file_val)
     
     #do the work
     ij = [rows,cols]
@@ -58,7 +68,7 @@ def doLeastSquares(argv):
     for x_i in result[0]:
         f.write('%f\n' %(x_i))
     f.close()
-    print 'iterations: %i; error |Ax-b|: %f' %(result[2],result[3])
+    print('iterations: %i; error |Ax-b|: %f' %(result[2],result[3]))
 
     
 if __name__ == '__main__':
